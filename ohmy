@@ -1856,23 +1856,28 @@ function RayfieldLibrary:CreateWindow(Settings)
 		end
 
 		function Tab:RefreshDropdown(Dropdown, NewOptions)
-			Dropdown.List.Visible = false
-		
-			for _, Option in ipairs(Dropdown.List:GetChildren()) do
-				if Option.ClassName == "Frame" and Option.Name ~= "Placeholder" then
-					Option:Destroy()
-				end
-			end
-		
-			Dropdown.Toggle.Rotation = 180
-			Dropdown.Size = UDim2.new(1, -10, 0, 45)
-		
-			for _, NewOption in ipairs(NewOptions) do
-				local Option = Elements.Template.DropdownOption:Clone()
-				Option.Title.Text = NewOption
-				Option.Parent = Dropdown.List
-			end
-		end
+    if Dropdown.List then -- check that Dropdown.List is not nil
+        Dropdown.List.Visible = false
+
+        for _, Option in ipairs(Dropdown.List:GetChildren()) do
+            if Option.ClassName == "Frame" and Option.Name ~= "Placeholder" then
+                Option:Destroy()
+            end
+        end
+
+        Dropdown.Toggle.Rotation = 180
+        Dropdown.Size = UDim2.new(1, -10, 0, 45)
+
+        for _, NewOption in ipairs(NewOptions) do
+            local Option = Elements.Template.DropdownOption:Clone()
+            Option.Title.Text = NewOption
+            Option.Parent = Dropdown.List
+        end
+
+        Dropdown.List.Visible = true -- set Visible to true after updating options
+    end
+end
+
 		
 
 		-- Keybind
